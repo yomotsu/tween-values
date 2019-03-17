@@ -1,0 +1,25 @@
+{
+  "name": "tween-values",
+  "version": "0.0.0",
+  "author": "Yomotsu",
+  "license": "MIT",
+  "repository": "yomotsu/tween-values",
+  "jsnext:main": "dist/tween-values.module.js",
+  "module": "dist/tween-values.module.js",
+  "main": "dist/tween-values.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "rollup": "^1.6.0",
+    "rollup-plugin-typescript2": "^0.20.1",
+    "rollup-watch": "^4.3.1",
+    "terser": "^3.17.0",
+    "typescript": "^3.3.3333"
+  },
+  "scripts": {
+    "dev": "rollup --config --watch",
+    "build": "rollup --config && terser 'dist/tween-values.js' -o 'dist/tween-values.min.js' --comments '/^!/'"
+  },
+  "keywords": [
+    "tween"
+  ]
+}

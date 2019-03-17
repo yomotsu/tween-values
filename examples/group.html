@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>=^.^=</title>
+</head>
+<body>
+
+<script src="../dist/tween-values.js"></script>
+<script>
+
+const start = {
+  x: 0,
+  y: 100,
+};
+
+const end = {
+  x: 100,
+  y: 50,
+};
+
+const duration = 5000;
+
+const tween1 = new TweenValues.Tween( start, end, duration ).play();
+const tween2 = new TweenValues.Tween( start, end, duration ).play();
+const tweenGroup = new TweenValues.TweenGroup( tween1, tween2 );
+
+tween1.addEventListener( 'update', function () {
+  console.log( tween2.currentValues );
+} );
+
+let lastTime = 0;
+( function loop( elapsed ) {
+
+  requestAnimationFrame( loop );
+
+  if ( ! tweenGroup.isRunning() ) return;
+
+  const delta = elapsed - lastTime;
+  tweenGroup.update( delta );
+  lastTime = elapsed;
+
+} )( 0 );
+
+</script>
+
+</body>
+</html>
