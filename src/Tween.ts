@@ -1,12 +1,12 @@
 import { EventDispatcher } from './EventDispatcher';
-import { Easing, easeLinear } from './Easings';
+import { Easing, easeLinear } from './easings';
 import { Values, cloneValues, lerpValues } from './Values';
 import { activeTweens } from './manager';
 
 export class Tween extends EventDispatcher {
 
 	public easing: Easing;
-	
+
 	private _running: boolean = false;
 	private _startValues!: Values;
 	private _endValues!: Values;
@@ -36,7 +36,7 @@ export class Tween extends EventDispatcher {
 	}
 
 	get progress(): number {
-		
+
 		return this._elapsed / this._duration;
 
 	}
@@ -86,7 +86,8 @@ export class Tween extends EventDispatcher {
 
 			this._elapsed = this._duration;
 			this._running = false;
-			this.dispatchEvent( { type: 'update'} );
+			this._currentValues = cloneValues( this._endValues );
+			this.dispatchEvent( { type: 'update' } );
 			this.dispatchEvent( { type: 'ended' } );
 			activeTweens.remove( this );
 
@@ -94,10 +95,16 @@ export class Tween extends EventDispatcher {
 
 		}
 
-		lerpValues( this._startValues, this._endValues, this.progress, this._currentValues );
+		lerpValues(
+			this._startValues,
+			this._endValues,
+			this.easing( this.progress ),
+			this._currentValues,
+		);
 		this.dispatchEvent( { type: 'update' } );
 
 		return this;
+
 	}
 
 	public dispose(): void {

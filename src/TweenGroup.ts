@@ -15,11 +15,11 @@ export class TweenGroup extends EventDispatcher {
 	public add( ...tweens: Tween[] ): void {
 
 		tweens.forEach( ( tween ) => {
-			
+
 			if ( this._group.indexOf( tween ) !== - 1 ) return;
 
 			this._group.push( tween );
-			
+
 		} );
 
 	}

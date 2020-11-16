@@ -7,13 +7,13 @@ export function easeLinear( t: number ): number {
 
 export function easeInExpo( t: number ): number {
 
-	return t === 0 ? 0 : Math.pow(1024, t - 1);
+	return t === 0 ? 0 : Math.pow( 1024, t - 1 );
 
 }
 
 export function easeOutExpo( t: number ): number {
 
-	return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+	return t === 1 ? 1 : 1 - Math.pow( 2, -10 * t );
 
 }
 

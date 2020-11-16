@@ -4,9 +4,7 @@ export interface Values {
 
 export function cloneValues( values: Values ): Values {
 
-	const result: Values = {};
-
-	return Object.assign( result, values );
+	return Object.assign( {}, values );
 
 }
 
@@ -14,7 +12,7 @@ export function lerpValues( a: Values, b: Values, alpha: number, out: Values ): 
 
 	for (const key in out ) {
 
-		out[ key ] = ( b[ key ] - a[ key ] ) * alpha;
+		out[ key ] = ( b[ key ] - a[ key ] ) * alpha + a[ key ];
 
 	}
 
