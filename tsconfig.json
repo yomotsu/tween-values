@@ -5,6 +5,7 @@
     "outDir": "./dist",
     "baseUrl": "src",
     "target": "es5",
+    "lib": ["esnext", "dom"],
     "strict": true,
     "removeComments": true,
     "noUnusedLocals": true,
