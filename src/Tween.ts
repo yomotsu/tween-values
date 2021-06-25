@@ -1,7 +1,16 @@
 import { EventDispatcher } from './EventDispatcher';
-import { Easing, easeLinear } from './easings';
+import type { Listener } from './EventDispatcher';
+import { easeLinear } from './easings';
+import type { Easing } from './easings';
 import { Values, cloneValues, lerpValues } from './Values';
 import { activeTweens } from './manager';
+export interface TweenEventMap {
+	started: { type: 'started' };
+	paused : { type: 'paused' };
+	update: { type: 'update', currentValues: Values };
+	ended: { type: 'ended', currentValues: Values };
+}
+
 
 export class Tween extends EventDispatcher {
 
@@ -60,7 +69,7 @@ export class Tween extends EventDispatcher {
 
 		this._running = true;
 		activeTweens.add( this );
-		this.dispatchEvent( { type: 'started'} );
+		this.dispatchEvent( { type: 'started' } );
 
 		return this;
 
@@ -70,7 +79,7 @@ export class Tween extends EventDispatcher {
 
 		this._running = false;
 		activeTweens.remove( this );
-		this.dispatchEvent( { type: 'paused'} );
+		this.dispatchEvent( { type: 'paused' } );
 
 		return this;
 
@@ -87,8 +96,8 @@ export class Tween extends EventDispatcher {
 			this._elapsed = this._duration;
 			this._running = false;
 			this._currentValues = cloneValues( this._endValues );
-			this.dispatchEvent( { type: 'update' } );
-			this.dispatchEvent( { type: 'ended' } );
+			this.dispatchEvent( { type: 'update', currentValues: cloneValues( this._currentValues ) } );
+			this.dispatchEvent( { type: 'ended', currentValues: cloneValues( this._currentValues ) } );
 			activeTweens.remove( this );
 
 			return this;
@@ -101,7 +110,7 @@ export class Tween extends EventDispatcher {
 			this.easing( this.progress ),
 			this._currentValues,
 		);
-		this.dispatchEvent( { type: 'update' } );
+		this.dispatchEvent( { type: 'update', currentValues: cloneValues( this._currentValues ) } );
 
 		return this;
 
@@ -110,6 +119,24 @@ export class Tween extends EventDispatcher {
 	public dispose(): void {
 
 		this.removeAllEventListeners();
+
+	}
+
+	addEventListener<K extends keyof TweenEventMap>(
+		type: K,
+		listener: ( event: TweenEventMap[ K ] ) => any,
+	): void {
+
+		super.addEventListener( type, listener as Listener );
+
+	}
+
+	removeEventListener<K extends keyof TweenEventMap>(
+		type: K,
+		listener: ( event: TweenEventMap[ K ] ) => any,
+	): void {
+
+		super.removeEventListener( type, listener as Listener );
 
 	}
 

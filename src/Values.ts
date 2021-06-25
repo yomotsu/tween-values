@@ -1,3 +1,5 @@
+import { lerp } from './utils';
+
 export interface Values {
 	[ key: string ]: number;
 }
@@ -12,7 +14,7 @@ export function lerpValues( a: Values, b: Values, alpha: number, out: Values ): 
 
 	for (const key in out ) {
 
-		out[ key ] = ( b[ key ] - a[ key ] ) * alpha + a[ key ];
+		out[ key ] = lerp( a[ key ], b[ key ], alpha );
 
 	}
 

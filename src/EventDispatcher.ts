@@ -1,5 +1,3 @@
-// based on https://github.com/mrdoob/eventdispatcher.js/
-
 export type Listener = ( event?: DispatcherEvent ) => void;
 
 export interface DispatcherEvent {
@@ -9,28 +7,19 @@ export interface DispatcherEvent {
 
 export class EventDispatcher {
 
-	protected _listeners: { [ type: string ]: Listener[] };
+	private _listeners: { [ type: string ]: Listener[] } = {};
 
-	constructor() {
-
-		this._listeners = {};
-
-	}
-
-	public addEventListener( type: string, listener: Listener ): void {
+	addEventListener( type: string, listener: Listener ): void {
 
 		const listeners = this._listeners;
 
 		if ( listeners[ type ] === undefined ) listeners[ type ] = [];
 
-		if ( listeners[ type ].indexOf( listener ) === - 1 ) {
+		if ( listeners[ type ].indexOf( listener ) === - 1 ) listeners[ type ].push( listener );
 
-			listeners[ type ].push( listener );
-
-		}
 	}
 
-	// public hasEventListener( type: string, listener: Listener ): boolean {
+	// hasEventListener( type: string, listener: Listener ): boolean {
 
 	// 	const listeners = this._listeners;
 
@@ -38,21 +27,22 @@ export class EventDispatcher {
 
 	// }
 
-	// public removeEventListener(type: string, listener: Listener): void {
+	removeEventListener( type: string, listener: Listener ): void {
 
-	// 	const listeners = this._listeners;
-	// 	const listenerArray = listeners[type];
+		const listeners = this._listeners;
+		const listenerArray = listeners[ type ];
 
-	// 	if (listenerArray !== undefined) {
-	// 		const index = listenerArray.indexOf(listener);
+		if ( listenerArray !== undefined ) {
 
-	// 		if (index !== -1) {
-	// 			listenerArray.splice(index, 1);
-	// 		}
-	// 	}
-	// }
+			const index = listenerArray.indexOf( listener );
 
-	public removeAllEventListeners( type?: string ): void {
+			if ( index !== - 1 ) listenerArray.splice( index, 1 );
+
+		}
+
+	}
+
+	removeAllEventListeners( type?: string ): void {
 
 		if ( ! type ) {
 
@@ -65,10 +55,10 @@ export class EventDispatcher {
 
 	}
 
-	public dispatchEvent(event: DispatcherEvent): void {
+	dispatchEvent( event: DispatcherEvent ): void {
 
 		const listeners = this._listeners;
-		const listenerArray = listeners[event.type];
+		const listenerArray = listeners[ event.type ];
 
 		if ( listenerArray !== undefined ) {
 
@@ -80,7 +70,9 @@ export class EventDispatcher {
 				array[ i ].call( this, event );
 
 			}
+
 		}
 
 	}
+
 }
