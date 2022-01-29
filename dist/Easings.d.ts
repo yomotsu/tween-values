@@ -1,7 +1,12 @@
 export declare type Easing = (t: number) => number;
 export declare function easeLinear(t: number): number;
+export declare function easeOutSine(t: number): number;
+export declare function easeInSine(t: number): number;
+export declare function easeInOutSine(t: number): number;
+export declare function easeInCubic(t: number): number;
+export declare function easeOutCubic(x: number): number;
+export declare function easeInOutCubic(t: number): number;
 export declare function easeInExpo(t: number): number;
 export declare function easeOutExpo(t: number): number;
 export declare function easeInOutExpo(t: number): number;
-export declare function easeOutSine(t: number): number;
 export declare function easeOutBack(t: number): number;
