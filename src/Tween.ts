@@ -32,7 +32,7 @@ export class Tween extends EventDispatcher {
 	private _duration: number;
 	private _elapsed: number = 0;
 
-	constructor( startValues: Values, endValues: Values, duration: number, { easing, onStart, onUpdate, onEnd }: TweenOptions ) {
+	constructor( startValues: Values, endValues: Values, duration: number, { easing, onStart, onUpdate, onEnd }: TweenOptions = {} ) {
 
 		super();
 
@@ -104,7 +104,6 @@ export class Tween extends EventDispatcher {
 
 		this._running = false;
 		activeTweens.remove( this );
-		this.onEnd && this.onEnd();
 		this.dispatchEvent( { type: 'paused' } );
 
 		return this;
@@ -124,6 +123,7 @@ export class Tween extends EventDispatcher {
 			this._currentValues = cloneValues( this._endValues );
 			this.onUpdate && this.onUpdate();
 			this.dispatchEvent( { type: 'update', currentValues: cloneValues( this._currentValues ) } );
+			this.onEnd && this.onEnd();
 			this.dispatchEvent( { type: 'ended', currentValues: cloneValues( this._currentValues ) } );
 			activeTweens.remove( this );
 
