@@ -7,3 +7,5 @@ export function isRunning(): boolean {
 	return activeTweens.isRunning();
 
 }
+
+export const tweenManager = new TweenGroup();

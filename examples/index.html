@@ -26,7 +26,7 @@ const tween = new TweenValues.Tween( start, end, duration );
 tween.addEventListener( 'update', function () {
   console.log( tween.currentValues );
 } );
-tween.play();
+tween.start();
 
 let lastTime = 0;
 ( function loop( elapsed ) {

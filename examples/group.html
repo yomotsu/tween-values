@@ -22,8 +22,8 @@ const end = {
 
 const duration = 5000;
 
-const tween1 = new TweenValues.Tween( start, end, duration ).play();
-const tween2 = new TweenValues.Tween( start, end, duration ).play();
+const tween1 = new TweenValues.Tween( start, end, duration ).start();
+const tween2 = new TweenValues.Tween( start, end, duration ).start();
 const tweenGroup = new TweenValues.TweenGroup( tween1, tween2 );
 
 tween1.addEventListener( 'update', function () {
